@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  text-align: center;
+}
+
+.page {
+  display: none;
+  padding: 50px;
+  min-height: 100vh;
+}
+
+.page.active {
+  display: block;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background: #1abc9c;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #16a085;
+}
+
+.form {
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  width: 300px;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+#chatBox {
+  width: 60%;
+  height: 300px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto 20px;
+  padding: 10px;
+  border-radius: 10px;
+  overflow-y: auto;
+  text-align: left;
+}

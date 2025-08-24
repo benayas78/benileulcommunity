@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BENAYAS LEULSEGED COMMUNITY</title>
+  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.js">
+    <link rel="stylesheet" href="index(2).html">
+<style>
+  :root{
+    --bg1:#0f172a; --bg2:#1e293b; --card:#0b1220; --muted:#94a3b8;
+    --pri:#06b6d4; --pri2:#22d3ee; --acc:#a78bfa; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+    --ring:0 0 0 2px rgba(34,211,238,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    color:#e5e7eb; background:
+      radial-gradient(60vw 60vw at 80% -10%, rgba(34,211,238,.15), transparent 60%),
+      radial-gradient(50vw 50vw at -10% 110%, rgba(167,139,250,.15), transparent 60%),
+      linear-gradient(180deg, var(--bg1), var(--bg2));
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .logo{
+    width:42px;height:42px;border-radius:12px;background:
+      radial-gradient(120% 120% at 20% 20%, var(--pri2), transparent 60%),
+      radial-gradient(120% 120% at 80% 80%, var(--acc), transparent 60%),
+      linear-gradient(135deg, #0ea5e9, #7c3aed);
+    box-shadow:0 10px 30px rgba(34,211,238,.2), inset 0 0 30px rgba(255,255,255,.08);
+  }
+  h1{font-size:clamp(20px,3.5vw,34px);margin:0;letter-spacing:.2px}
+  .subtitle{color:var(--muted);font-size:14px;margin-top:2px}
+
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 22px}
+  .tab{
+    padding:10px 14px;border:1px solid rgba(148,163,184,.18);
+    background:rgba(11,18,32,.6);border-radius:12px;cursor:pointer;
+    transition:.18s ease;user-select:none
+  }
+  .tab:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(2,6,23,.4)}
+  .tab.active{border-color:rgba(34,211,238,.5);box-shadow:var(--ring)}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,.03), transparent 22%),
+               rgba(11,18,32,.7);
+    border:1px solid rgba(148,163,184,.18);
+    border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,.5)
+  }
+  .grid{display:grid;gap:16px}
+  @media(min-width:900px){.grid-2{grid-template-columns:1.2fr .8fr}}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:10px 14px;border-radius:12px;border:1px solid rgba(148,163,184,.18);
+    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    color:#e5e7eb; cursor:pointer; transition:.18s ease; text-decoration:none
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(2,6,23,.4)}
+  .btn.primary{border-color:rgba(34,211,238,.5);box-shadow:var(--ring)}
+  .btn.ok{border-color:rgba(34,197,94,.4)}
+  .btn.warn{border-color:rgba(245,158,11,.4)}
+  .btn.err{border-color:rgba(239,68,68,.4)}
+  .btn.ghost{background:transparent}
+
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .space{height:10px}
+  .field{display:grid;gap:8px}
+  label{color:#cbd5e1;font-size:13px}
+  input,textarea,select{
+    width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(148,163,184,.2);
+    background:rgba(17, 42, 15, 0.65);color:#e5e7eb;outline:none
+  }
+  input:focus,textarea:focus,select:focus{box-shadow:var(--ring);border-color:rgba(34,211,238,.5)}
+  textarea{min-height:110px;resize:vertical}
+  .muted{color:var(--muted)}
+  .badge{display:inline-flex;gap:6px;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(148,163,184,.22);font-size:12px;color:#cbd5e1}
+  .list{display:grid;gap:10px}
+  .msg{padding:12px;border-radius:14px;border:1px solid rgba(148,163,184,.18);background:rgba(2,6,23,.6)}
+  .me{border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.06)}
+  .them{border-color:rgba(59,130,246,.28);background:rgba(59,130,246,.06)}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .pill{padding:7px 10px;border-radius:999px;background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.18);font-size:12px;color:#cbd5e1}
+  .hidden{display:none}
+  small code{background:rgba(148,163,184,.15);padding:2px 6px;border-radius:6px}
+  footer{margin-top:28px;color:var(--muted);font-size:12px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <div>
+      <h1>BENAYAS LEULSEGED COMMUNITY</h1>
+      <div class="subtitle">Realtime chat demo — welcome ▸ accept ▸ thanks/login ▸ chat ▸ my page</div>
+    </div>
+  </header>
+
+  <!-- Tabs (pages) -->
+  <div class="tabs">
+    <div class="tab active" data-page="welcome">1) WELCOM TO THIS COMMUNICATE WEB</div>
+    <div class="tab" data-page="accept">2) PRIVACY AND TERMS</div>
+    <div class="tab" data-page="thanks">3) REGISTER/LOGIN</div>
+    <div class="tab" data-page="chat">4) COMMUNICATE PAGE</div>
+    <div class="tab" data-page="mypage">5) MY PAGE </div>
+  </div>
+
+  <!-- 1) Welcome -->
+  <section id="welcome" class="grid grid-2">
+    <div class="card">
+      <div class="badge">🤖 AI • Tech </div>
+      <h2>Welcome to <span style="color:var(--pri2)">BENAYAS LEULSEGED COMMUNITY CENTER</span></h2>
+      <p class="muted">Fast, simple, modern chat experience — compose, sent, inbox, snoozed, spam, voice & video.</p>
+      <div class="space"></div>
+      <div class="row">
+        <button class="btn primary" id="welcomeNext">Next →</button>
+        <a class="btn ghost" href="#" id="learnMore">Learn more</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Highlights</h3>
+      <ul class="muted">
+        <li>⚡ Instant messaging (local)</li>
+        <li>🎥 Video/🎤 Voice (locally)</li>
+        <li>🔗 Link sharing, 📎 attachments (mock)</li>
+        <li>🛡️ Privacy-first flow</li>
+      </ul>
+      <div class="space"></div>
+      <small class="muted">This is a front-end demo. Data stored in your browser (<code>localStorage</code>).</small>
+    </div>
+  </section>
+
+  <!-- 2) Accept -->
+  <section id="accept" class="card hidden">
+    <div class="topbar">
+      <div class="badge">📜 Accept & Privacy</div>
+      <div class="pill">v1.0 • Demo</div>
+    </div>
+    <div class="grid">
+      <div>
+        <h3>Terms</h3>
+        <p class="muted">
+          By continuing, you accept our demo privacy & usage terms. Your demo data (username, messages) is stored locally
+          in your browser only, not on a server.
+        </p>
+      </div>
+      <div>
+        <h3>Privacy</h3>
+        <p class="muted">
+          Do not store real passwords here. In production, you will need a secure backend and database.
+        </p>
+      </div>
+    </div>
+    <div class="space"></div>
+    <div class="row">
+      <button class="btn" id="acceptBack">← Back</button>
+      <button class="btn primary" id="acceptNext">Next →</button>
+    </div>
+  </section>
+
+  <!-- 3) Thanks + Login/Register -->
+  <section id="thanks" class="grid grid-2 hidden">
+    <div class="card">
+      <div class="badge">🎉 Thanks for joining</div>
+      <h3>Get started: Create account or log in</h3>
+
+      <div class="grid" style="grid-template-columns:1fr 1fr; gap:14px">
+        <div class="field">
+          <label>Register — Username (must end with <code>@beni.com</code>)</label>
+          <input id="regUser" placeholder="e.g. yourname@beni.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="regPass" type="password" placeholder="Create password" />
+        </div>
+      </div>
+      <div class="space"></div>
+      <div class="row">
+        <button class="btn ok" id="registerBtn">Register ✓</button>
+        <button class="btn warn" id="seedDemo">Use Demo Account</button>
+      </div>
+
+      <hr style="border:0;border-top:1px solid rgba(148,163,184,.18);margin:16px 0" />
+
+      <div class="grid" style="grid-template-columns:1fr 1fr; gap:14px">
+        <div class="field">
+          <label>Login — Username</label>
+          <input id="loginUser" placeholder="username@beni.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="loginPass" type="password" placeholder="Password" />
+        </div>
+      </div>
+      <div class="space"></div>
+      <div class="row">
+        <button class="btn primary" id="loginBtn">Login →</button>
+        <button class="btn" id="thanksBack">← Back</button>
+      </div>
+      <div class="space"></div>
+      <small class="unmuted"> admin: <code>benayasleulseged@beni.com</code> / <code>1XVBENI72</code></small>
+    </div>
+
+    <div class="card">
+      <h3>Notes</h3>
+      <ul class="muted">
+        <li>Enforced domain: <strong>@beni.com</strong></li>
+        <li>Local demo storage only</li>
+        <li>Move to real backend later (Flask/Node + DB)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4) Chat -->
+  <section id="chat" class="grid grid-2 hidden">
+    <div class="card">
+      <div class="topbar">
+        <div class="badge">💬 Chat</div>
+        <div class="pill">Logged in as: <span id="whoami">—</span></div>
+      </div>
+
+      <div class="row" style="flex-wrap:wrap">
+        <button class="btn" data-filter="inbox">📥 Inbox</button>
+        <button class="btn" data-filter="sent">📤 Sent</button>
+        <button class="btn" data-filter="snoozed">😴 Snoozed</button>
+        <button class="btn" data-filter="spam">🚫 Spam</button>
+        <span class="pill" id="countPill">0 messages</span>
+      </div>
+
+      <div class="space"></div>
+      <div class="list" id="messageList"></div>
+    </div>
+
+    <div class="card">
+      <h3>Compose</h3>
+      <div class="field">
+        <label>To (username@beni.com)</label>
+        <input id="toUser" placeholder="friend@beni.com" />
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <textarea id="msgBody" placeholder="Type your message…"></textarea>
+      </div>
+      <div class="row">
+        <button class="btn ok" id="sendBtn">Send</button>
+        <button class="btn" id="linkBtn">🔗 Share Link</button>
+        <button class="btn" id="voiceBtn">🎤 Voice</button>
+        <button class="btn" id="videoBtn">🎥 Video</button>
+      </div>
+      <div class="space"></div>
+      <small class="muted">Tip: Click a message to toggle Snooze/Spam.</small>
+    </div>
+  </section>
+
+  <!-- 5) My Page -->
+  <section id="mypage" class="grid grid-2 hidden">
+    <div class="card">
+      <div class="badge">👤 My Page</div>
+      <h3>Account</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr; gap:14px">
+        <div class="field">
+          <label>Username</label>
+          <input id="mpUser" disabled />
+        </div>
+        <div class="field">
+          <label>Password (stored locally for demo)</label>
+          <input id="mpPass" type="password" />
+        </div>
+      </div>
+      <div class="space"></div>
+      <div class="row">
+        <button class="btn primary" id="saveProfile">Save</button>
+        <button class="btn err" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Admin (demo)</h3>
+      <div class="row">
+        <button class="btn" id="listUsers">👥 Users</button>
+        <button class="btn warn" id="resetDemo">🧹 Reset Demo</button>
+      </div>
+      <div class="space"></div>
+      <pre id="adminOut" style="white-space:pre-wrap;color:#cbd5e1;margin:0"></pre>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> BENAYAS LEULSEGED • Demo only</footer>
+</div>
+
+<script>
+/* =========================
+   Utilities & Demo Storage
+========================= */
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const PAGES = ["welcome","accept","thanks","chat","mypage"];
+const KEY_USERS = "beni_users";
+const KEY_MSGS  = "beni_msgs";
+const KEY_AUTH  = "beni_auth";
+
+/* Load & save helpers */
+const load = (k, def) => {
+  try { return JSON.parse(localStorage.getItem(k)) ?? def; }
+  catch(e){ return def; }
+};
+const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+
+/* Seed demo admin if missing */
+function seedAdmin(){
+  const users = load(KEY_USERS, {});
+  if(!users["benayasleulseged@beni.com"]){
+    users["benayasleulseged@beni.com"] = {password:"1XVBENI72"};
+    save(KEY_USERS, users);
+  }
+}
+
+/* Routing */
+function show(page){
+  PAGES.forEach(p=>{
+    const tab = $(`.tab[data-page="${p}"]`);
+    const sec = $(`#${p}`);
+    if(p===page){ tab.classList.add("active"); sec.classList.remove("hidden"); }
+    else{ tab.classList.remove("active"); sec.classList.add("hidden"); }
+  });
+  if(page==="chat"){ renderMessages(currentFilter); updateWhoAmI(); }
+  if(page==="mypage"){ loadProfile(); }
+}
+
+/* Year */
+$("#year").textContent = new Date().getFullYear();
+
+/* State */
+let currentUser = null;
+let currentFilter = "inbox";
+
+/* Auth */
+function requireBeni(user){
+  return typeof user === "string" && user.trim().endsWith("@beni.com");
+}
+function register(user, pass){
+  if(!requireBeni(user)) return {ok:false, msg:"Username must end with @beni.com"};
+  const users = load(KEY_USERS, {});
+  if(users[user]) return {ok:false, msg:"User already exists"};
+  users[user] = {password: pass || ""};
+  save(KEY_USERS, users);
+  return {ok:true};
+}
+function login(user, pass){
+  const users = load(KEY_USERS, {});
+  if(users[user] && users[user].password===pass){
+    save(KEY_AUTH, {user});
+    currentUser = user;
+    return {ok:true};
+  }
+  return {ok:false, msg:"Invalid credentials"};
+}
+function logout(){
+  localStorage.removeItem(KEY_AUTH);
+  currentUser = null;
+}
+
+/* Messages shape: {id, from, to, body, ts, snoozed:false, spam:false} */
+function sendMessage(from, to, body){
+  if(!requireBeni(to)) return {ok:false, msg:"Receiver must be @beni.com"};
+  const msgs = load(KEY_MSGS, []);
+  const m = {id: crypto.randomUUID(), from, to, body, ts: Date.now(), snoozed:false, spam:false};
+  msgs.push(m);
+  save(KEY_MSGS, msgs);
+  return {ok:true, msg:m};
+}
+function toggleFlag(id, key){ // key: 'snoozed' | 'spam'
+  const msgs = load(KEY_MSGS, []);
+  const i = msgs.findIndex(m=>m.id===id);
+  if(i>=0){ msgs[i][key] = !msgs[i][key]; save(KEY_MSGS, msgs); }
+}
+function listMessages(user, filter){
+  const msgs = load(KEY_MSGS, []);
+  let res = msgs.filter(m => m.to===user || m.from===user);
+  switch(filter){
+    case "inbox": res = res.filter(m=>m.to===user && !m.snoozed && !m.spam); break;
+    case "sent": res = res.filter(m=>m.from===user); break;
+    case "snoozed": res = res.filter(m=>m.to===user && m.snoozed); break;
+    case "spam": res = res.filter(m=>m.to===user && m.spam); break;
+  }
+  return res.sort((a,b)=>a.ts-b.ts);
+}
+
+/* UI actions */
+function updateWhoAmI(){
+  $("#whoami").textContent = currentUser ?? "—";
+}
+function renderMessages(filter="inbox"){
+  if(!currentUser) return;
+  const list = $("#messageList");
+  list.innerHTML = "";
+  const msgs = listMessages(currentUser, filter);
+  $("#countPill").textContent = `${msgs.length} messages`;
+  msgs.forEach(m=>{
+    const div = document.createElement("div");
+    const mine = m.from===currentUser;
+    div.className = `msg ${mine?"me":"them"}`;
+    const when = new Date(m.ts).toLocaleString();
+    const flags = (m.snoozed?"😴 ":"") + (m.spam?"🚫 ":"");
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+        <strong>${mine?"Me → "+m.to: m.from+" → Me"}</strong>
+        <small class="muted">${when}</small>
+      </div>
+      <div style="margin-top:6px">${escapeHtml(m.body)}</div>
+      <div style="margin-top:8px" class="muted">${flags}</div>
+    `;
+    div.title = "Click to toggle Snooze/Spam";
+    div.style.cursor = "pointer";
+    div.addEventListener("click", ()=>{
+      // first click toggles snooze, second toggles spam (alternate)
+      if(!m.snoozed){ toggleFlag(m.id,"snoozed"); }
+      else if(!m.spam){ toggleFlag(m.id,"spam"); }
+      else { toggleFlag(m.id,"snoozed"); toggleFlag(m.id,"spam"); } // clear both
+      renderMessages(currentFilter);
+    });
+    list.appendChild(div);
+  });
+}
+
+/* Escape */
+function escapeHtml(s){
+  return (s??"").toString().replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+/* =========================
+   Event wiring
+========================= */
+seedAdmin();
+const auth = load(KEY_AUTH, null);
+if(auth?.user){ currentUser = auth.user; }
+
+/* Tabs click */
+$$(".tab").forEach(t=>t.addEventListener("click",()=>show(t.dataset.page)));
+
+/* Page 1 */
+$("#welcomeNext").addEventListener("click",()=>show("accept"));
+$("#learnMore").addEventListener("click",()=>alert("Modern chat demo. Move to real backend later for production."));
+
+/* Page 2 */
+$("#acceptBack").addEventListener("click",()=>show("welcome"));
+$("#acceptNext").addEventListener("click",()=>show("thanks"));
+
+/* Page 3 */
+$("#thanksBack").addEventListener("click",()=>show("accept"));
+$("#registerBtn").addEventListener("click",()=>{
+  const u = $("#regUser").value.trim();
+  const p = $("#regPass").value;
+  const res = register(u,p);
+  if(res.ok){ alert("Registered! Now login."); $("#loginUser").value=u; $("#loginPass").value=p; }
+  else alert(res.msg);
+});
+$("#seedDemo").addEventListener("click",()=>{
+  seedAdmin();
+  $("#loginUser").value="benayasleulseged@beni.com";
+  $("#loginPass").value="1XVBENI72";
+  alert("Demo user filled. Click Login.");
+});
+$("#loginBtn").addEventListener("click",()=>{
+  const u = $("#loginUser").value.trim();
+  const p = $("#loginPass").value;
+  const res = login(u,p);
+  if(res.ok){ updateWhoAmI(); show("chat"); }
+  else alert(res.msg);
+});
+
+/* Page 4 */
+$$('#chat .btn').forEach(btn=>{
+  const f = btn.getAttribute('data-filter');
+  if(!f) return;
+  btn.addEventListener("click",()=>{ currentFilter = f; renderMessages(currentFilter); });
+});
+$("#sendBtn").addEventListener("click",()=>{
+  if(!currentUser) return alert("Please login first.");
+  const to = $("#toUser").value.trim();
+  const body = $("#msgBody").value.trim();
+  if(!to || !body) return alert("Fill all fields.");
+  const r = sendMessage(currentUser, to, body);
+  if(r.ok){
+    $("#msgBody").value=""; renderMessages(currentFilter);
+    // simulate delivery receipt
+    setTimeout(()=> alert("✅ Delivered & received (demo)"), 300);
+  } else alert(r.msg);
+});
+$("#linkBtn").addEventListener("click",()=>{
+  const url = prompt("Paste a link to share:");
+  if(url){ $("#msgBody").value += ( $("#msgBody").value? "\n" :"") + "🔗 " + url; }
+});
+$("#voiceBtn").addEventListener("click",()=>alert("🎤 Voice message (simulated in demo)"));
+$("#videoBtn").addEventListener("click",()=>alert("🎥 Video call (simulated in demo)"));
+
+/* Page 5 */
+function loadProfile(){
+  if(!currentUser){ $("#mpUser").value=""; $("#mpPass").value=""; return; }
+  const users = load(KEY_USERS, {});
+  $("#mpUser").value = currentUser;
+  $("#mpPass").value = users[currentUser]?.password ?? "";
+}
+$("#saveProfile").addEventListener("click",()=>{
+  if(!currentUser) return;
+  const users = load(KEY_USERS, {});
+  users[currentUser].password = $("#mpPass").value;
+  save(KEY_USERS, users);
+  alert("Saved locally (demo).");
+});
+$("#logoutBtn").addEventListener("click",()=>{
+  logout(); updateWhoAmI(); show("thanks");
+});
+$("#listUsers").addEventListener("click",()=>{
+  const users = load(KEY_USERS, {});
+  $("#adminOut").textContent = "Users:\n" + Object.keys(users).map(u=>`• ${u}`).join("\n");
+});
+$("#resetDemo").addEventListener("click",()=>{
+  if(confirm("Reset demo data (users & messages)?")){
+    localStorage.removeItem(KEY_USERS);
+    localStorage.removeItem(KEY_MSGS);
+    localStorage.removeItem(KEY_AUTH);
+    seedAdmin();
+    currentUser = null;
+    $("#adminOut").textContent = "";
+    alert("Demo reset. Admin user restored.");
+    show("welcome");
+  }
+});
+
+/* Initial route */
+show(currentUser ? "chat" : "welcome");
+</script>
+</body>
+</html>
